@@ -33,3 +33,9 @@ func (client *DBClient) GetArticleMetadataByPage(offset, limit int) *[]Article {
 	client.db.Table(TableNameArticle).Select(ArticleMetadataColumns).Offset(offset).Limit(limit).Find(&articleList)
 	return &articleList
 }
+
+func (client *DBClient) GetPublicArticleCount() int {
+	var count int
+	client.db.Table(TableNameArticle).Where("is_hidden = ? AND is_deleted = ?", 0, 0).Count(&count)
+	return count
+}

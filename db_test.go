@@ -15,3 +15,9 @@ func TestGetArticleMetadataByPage(t *testing.T) {
 		log.Printf("title: %s\n", value.Title)
 	}
 }
+
+func TestGetPublicArticleCount(t *testing.T) {
+	dbClient := GetDBClient()
+	count := dbClient.GetPublicArticleCount()
+	log.Printf("count: %d", count)
+}

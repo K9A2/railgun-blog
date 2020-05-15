@@ -9,11 +9,9 @@ import (
 
 func main() {
 	router := mux.NewRouter()
-	router.PathPrefix("/api")
 
-	articleMetadataHandler := ArticleMetadataHandler{}
-	router.Handle("/metadata", &articleMetadataHandler)
+	articleHandler := ArticleHandler{}
+	articleHandler.RegisterHandleFunc(router.NewRoute().Subrouter())
 
-	http.Handle("/", router)
-	log.Fatal(http.ListenAndServeTLS(":443", "domain.crt", "domain.key", nil))
+	log.Fatal(http.ListenAndServeTLS(":443", "domain.crt", "domain.key", router))
 }
