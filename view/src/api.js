@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const articleApiBase = '/article'
+const articleApiBase = 'http://192.168.247.134:8080/api/article/'
 
 export const getArticleMetadataByPage = (offset, limit) => {
     return axios({

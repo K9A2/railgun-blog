@@ -1,17 +1,13 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/contrib/static"
 )
 
 func main() {
-	router := mux.NewRouter()
-
-	articleHandler := ArticleHandler{}
-	articleHandler.RegisterHandleFunc(router.NewRoute().Subrouter())
-
-	log.Fatal(http.ListenAndServeTLS(":443", "domain.crt", "domain.key", router))
+	router := GetRouter()
+	// router.Use(cors.Default())
+	router.Use(static.Serve("/", static.LocalFile("./view/build", true)))
+	router.RunTLS(":443", "domain.crt", "domain.key")
+	// log.Fatal(autotls.Run(router, "foo.com"))
 }

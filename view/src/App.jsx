@@ -1,9 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-// import { Button, DatePicker } from 'antd';
 import logo from './img/logo.jpg';
 import './App.css';
-// import 'antd/dist/antd.css';
 import { defaultPageOffset, defaultPageLimit } from './consts';
 import ArticleList from './component/ArticleList';
 
@@ -22,36 +20,35 @@ export default class App extends React.Component {
     this.getArticleMetadataByPage();
   }
 
-  getArticleMetadataByPage() {
-    axios.get('http://192.168.8.207:8081/article/metadata', {
+  getArticleMetadataByPage(offset, limit) {
+    axios.get('/api/article/metadata', {
       method: 'GET',
       params: {
-        'offset': this.state.currentOffset,
-        'limit': this.state.currentLimit,
+        'offset': offset,
+        'limit': limit,
       },
     }).then(res => {
-      const articleMetadata = res.data;
+      const articleMetadata = res.data['metadataList'];
       this.setState({ metadataList: articleMetadata });
     });
   }
 
   handlePreviousPage = (event) => {
-    console.log(this.state);
-    let newOffset = Math.max(this.state.currentOffset - this.state.currentLimit, 0);
+    let newOffset = this.state.currentOffset - defaultPageLimit;
+    console.log('currentOffset: ' + this.state.currentOffset + ' newOffset: ' + newOffset);
+    this.getArticleMetadataByPage(newOffset, defaultPageLimit);
     this.setState({
       currentOffset: newOffset,
     });
-    this.getArticleMetadataByPage();
   }
 
-  handleNextPage= (event) => {
-    console.log(this.state);
-    let newOffset = Math.max(this.state.currentOffset + this.state.currentLimit, 0);
-    console.log(newOffset);
+  handleNextPage = (event) => {
+    let newOffset = this.state.currentOffset + defaultPageLimit;
+    console.log('currentOffset: ' + this.state.currentOffset + ' newOffset: ' + newOffset);
+    this.getArticleMetadataByPage(newOffset, defaultPageLimit);
     this.setState({
       currentOffset: newOffset,
     });
-    this.getArticleMetadataByPage();
   }
 
   render() {
@@ -83,10 +80,10 @@ export default class App extends React.Component {
               <a onClick={this.handlePreviousPage}>上一页</a>
             </div>
             <div className="to-collection-btn vertical-center">
-              <a href="">博客归档</a>
+              <a href="javascript:void(0)">博客归档</a>
             </div>
             <div className="next-page-btn vertical-center">
-              <a onClick={this.handleNextPage}>下一页</a>
+              <a href="javascript:void(0)" onClick={this.handleNextPage}>下一页</a>
             </div>
           </div>
           <footer>

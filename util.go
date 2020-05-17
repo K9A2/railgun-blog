@@ -2,15 +2,20 @@ package main
 
 import (
 	"log"
-	"net/http"
+	"strconv"
 )
 
-// GetDefaultQuery 从请求 req 中提取查询串，不存在就返回默认值
-func GetDefaultQuery(r *http.Request, key, defaultValue string) string {
-	values, ok := r.URL.Query()[key]
-	if !ok || len(values[0]) < 1 {
-		log.Printf("url param %s is missing\n", key)
-		return defaultValue
+// ConvertQueryStringToNumber 将 map 中的查询串转换为数字形式
+func ConvertQueryStringToNumber(source map[string]string) (map[string]int, error) {
+	log.Printf("sourceMap: %v\n", source)
+	convertedParams := make(map[string]int)
+	var err error
+	for k, v := range source {
+		nv, err := strconv.Atoi(v)
+		if err != nil {
+			return nil, err
+		}
+		convertedParams[k] = nv
 	}
-	return values[0]
+	return convertedParams, err
 }

@@ -5,15 +5,15 @@ export default class ArticleIndexEntry extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: props.info.title,
-            uri: props.info.uri,
-            updatedAt: props.info.updatedAt,
-            description: props.info.description,
+            title: props.info.Title,
+            slug: props.info.Slug,
+            updatedAt: props.info.UpdatedAt,
+            description: props.info.Description,
         };
     }
 
     render() {
-        let articleAddress = "/article/show/" + this.state.uri;
+        let articleAddress = "/article/show/" + this.state.slug;
         return (
             <div className="index-entry-area">
                 <div className="horizontal-area flex-container">
