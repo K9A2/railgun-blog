@@ -21,7 +21,7 @@ export default class App extends React.Component {
   }
 
   getArticleMetadataByPage(offset, limit) {
-    axios.get('/api/article/metadata', {
+    axios.get('https://192.168.247.134/api/article/metadata', {
       method: 'GET',
       params: {
         'offset': offset,
