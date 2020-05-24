@@ -6,6 +6,6 @@ export const initialState = {
   metadataList: [],
 };
 
-export const rootReducer = combineReducers({
+export default rootReducer = combineReducers({
   indexList,
 });
