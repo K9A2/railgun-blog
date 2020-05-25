@@ -4,18 +4,25 @@ import './App.css';
 import {defaultPageLimit} from './consts';
 import ArticleList from './component/ArticleList';
 import {connect} from 'react-redux';
-import {fetchArticleMetadataList} from "./actions/article_metadata";
+import {
+  fetchArticleMetadataList,
+  fetchPublicArticleCount,
+  setPaginationButtonVisibility
+} from "./actions/article_metadata";
 import PropTypes from 'prop-types';
 
 class App extends React.Component {
   static propTypes = {
     metadataList: PropTypes.array.isRequired,
     currentOffset: PropTypes.number.isRequired,
+    isPreviousPageButtonShow: PropTypes.bool.isRequired,
+    isNextPageButtonShow: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
     const {dispatch, currentOffset} = this.props;
-    dispatch(fetchArticleMetadataList(currentOffset, defaultPageLimit))
+    dispatch(fetchArticleMetadataList(currentOffset, defaultPageLimit));
+    dispatch(fetchPublicArticleCount());
   }
 
   handlePreviousPage = (e) => {
@@ -36,10 +43,13 @@ class App extends React.Component {
     // todo: 增加请求校验功能
     let newOffset = currentOffset + defaultPageLimit;
     dispatch(fetchArticleMetadataList(newOffset, defaultPageLimit));
+    dispatch(setPaginationButtonVisibility())
   };
 
   render() {
     let currentDate = new Date();
+    let hidePreviousPageButton = this.props.isPreviousPageButtonShow ? '' : 'hidden';
+    let hideNextPageButton = this.props.isNextPageButtonShow ? '' : 'hidden';
     return (
       <div className="App flex-container">
         <div className="left-col full-height wallpaper side-panel">
@@ -63,13 +73,13 @@ class App extends React.Component {
         <div className="right-col full-height main-panel">
           <ArticleList metadataList={this.props.metadataList}/>
           <div className="index-pagination-area flex-container">
-            <div className="previous-page-btn vertical-center">
+            <div className={`previous-page-btn vertical-center ${hidePreviousPageButton}`}>
               <a onClick={this.handlePreviousPage}>上一页</a>
             </div>
             <div className="to-collection-btn vertical-center">
               <a href="javascript:void(0)">博客归档</a>
             </div>
-            <div className="next-page-btn vertical-center">
+            <div className={`next-page-btn vertical-center ${hideNextPageButton}`}>
               <a href="javascript:void(0)" onClick={this.handleNextPage}>下一页</a>
             </div>
           </div>
@@ -87,6 +97,8 @@ const mapStateToProps = state => {
   return {
     metadataList: state.metadataList,
     currentOffset: state.currentOffset,
+    isPreviousPageButtonShow: state.isPreviousPageButtonShow,
+    isNextPageButtonShow: state.isNextPageButtonShow,
   }
 };
 

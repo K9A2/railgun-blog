@@ -3,6 +3,10 @@ body {
   background-color: #f7f7f7;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 .flex-container {
   display: flex;
 }
@@ -161,7 +165,7 @@ a, a:visited {
 }
 
 .previous-page-btn {
-  text-align: left; 
+  text-align: left;
   width: calc(100% / 3);
 }
 

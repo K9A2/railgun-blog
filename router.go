@@ -13,6 +13,7 @@ func setupRouter(r *gin.Engine) {
 	api := r.Group("/api")
 	{
 		api.GET("/article/metadata", GetArticleMetadataByPage)
+		api.GET("/article/public-count", GetPublicArticleCount)
 	}
 }
 
