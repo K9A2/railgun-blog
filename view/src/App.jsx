@@ -1,63 +1,50 @@
 import React from 'react';
-import axios from 'axios';
 import logo from './img/logo.jpg';
 import './App.css';
-import { defaultPageOffset, defaultPageLimit } from './consts';
+import {defaultPageLimit} from './consts';
 import ArticleList from './component/ArticleList';
+import {connect} from 'react-redux';
+import {fetchArticleMetadataList} from "./actions/article_metadata";
+import PropTypes from 'prop-types';
 
-export default class App extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentOffset: defaultPageOffset,
-      currentLimit: defaultPageLimit,
-      metadataList: [],
-    };
-  }
+class App extends React.Component {
+  static propTypes = {
+    metadataList: PropTypes.array.isRequired,
+    currentOffset: PropTypes.number.isRequired,
+  };
 
   componentDidMount() {
-    this.getArticleMetadataByPage();
+    const {dispatch, currentOffset} = this.props;
+    dispatch(fetchArticleMetadataList(currentOffset, defaultPageLimit))
   }
 
-  getArticleMetadataByPage(offset, limit) {
-    axios.get('https://192.168.247.134/api/article/metadata', {
-      method: 'GET',
-      params: {
-        'offset': offset,
-        'limit': limit,
-      },
-    }).then(res => {
-      const articleMetadata = res.data['metadataList'];
-      this.setState({ metadataList: articleMetadata });
-    });
-  }
+  handlePreviousPage = (e) => {
+    e.preventDefault();
 
-  handlePreviousPage = (event) => {
-    let newOffset = this.state.currentOffset - defaultPageLimit;
-    console.log('currentOffset: ' + this.state.currentOffset + ' newOffset: ' + newOffset);
-    this.getArticleMetadataByPage(newOffset, defaultPageLimit);
-    this.setState({
-      currentOffset: newOffset,
-    });
-  }
+    const {dispatch, currentOffset} = this.props;
+    let newOffset = currentOffset - defaultPageLimit;
+    if (newOffset < 0) {
+      newOffset = 0
+    }
+    dispatch(fetchArticleMetadataList(newOffset, defaultPageLimit));
+  };
 
-  handleNextPage = (event) => {
-    let newOffset = this.state.currentOffset + defaultPageLimit;
-    console.log('currentOffset: ' + this.state.currentOffset + ' newOffset: ' + newOffset);
-    this.getArticleMetadataByPage(newOffset, defaultPageLimit);
-    this.setState({
-      currentOffset: newOffset,
-    });
-  }
+  handleNextPage = (e) => {
+    e.preventDefault();
+
+    const {dispatch, currentOffset} = this.props;
+    // todo: 增加请求校验功能
+    let newOffset = currentOffset + defaultPageLimit;
+    dispatch(fetchArticleMetadataList(newOffset, defaultPageLimit));
+  };
 
   render() {
-    let currentDate = new Date()
+    let currentDate = new Date();
     return (
       <div className="App flex-container">
         <div className="left-col full-height wallpaper side-panel">
           <div className="logo-box">
-            <img src={logo} alt="Logo" className="blog-logo" />
+            <img src={logo} alt="Logo" className="blog-logo"/>
           </div>
           <div className="blog-profile white">
             <div className="blog-title-area">
@@ -74,7 +61,7 @@ export default class App extends React.Component {
           </div>
         </div>
         <div className="right-col full-height main-panel">
-          <ArticleList metadataList={this.state.metadataList}></ArticleList>
+          <ArticleList metadataList={this.props.metadataList}/>
           <div className="index-pagination-area flex-container">
             <div className="previous-page-btn vertical-center">
               <a onClick={this.handlePreviousPage}>上一页</a>
@@ -87,11 +74,20 @@ export default class App extends React.Component {
             </div>
           </div>
           <footer>
-            <p>© {currentDate.getFullYear()} - stormlin's blog - 粤ICP备16029958号-1</p>
-            <p>Powered by <a href="https://github.com/K9A2">java-my-blog</a></p>
+            <p>© {currentDate.getFullYear()}</p>
+            <p>Powered by <a href="https://github.com/K9A2/railgun-blog">railgun-blog</a></p>
           </footer>
         </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    metadataList: state.metadataList,
+    currentOffset: state.currentOffset,
+  }
+};
+
+export default connect(mapStateToProps)(App);

@@ -1,11 +1,8 @@
-import { combineReducers } from 'redux';
-import indexList from './indexList';
+import {combineReducers} from 'redux';
+import indexListReducer from './index_list_reducer';
 
-export const initialState = {
-  offset: 0,
-  metadataList: [],
-};
-
-export default rootReducer = combineReducers({
-  indexList,
-});
+// const rootReducer = combineReducers({
+//   indexListReducer,
+// });
+const rootReducer = indexListReducer;
+export default rootReducer;
