@@ -19,7 +19,7 @@ export default class SidePanel extends React.Component {
           <div className="function-area">
             <div className="function-btn"><Link to={'/'} className={"white"}>首页</Link></div>
             <div className="function-btn"><Link to={'/series'} className={"white"}>专题</Link></div>
-            <div className="function-btn"><Link to={'/tag'} className={"white"}>标签</Link></div>
+            {/*<div className="function-btn"><Link to={'/tag'} className={"white"}>标签</Link></div>*/}
             <div className="function-btn"><Link to={'/archive'} className={"white"}>归档</Link></div>
             <div className="function-btn"><Link to={'/about'} className={"white"}>关于</Link></div>
           </div>
