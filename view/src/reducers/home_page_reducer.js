@@ -21,7 +21,7 @@ const initialState = {
   isNextPageButtonShow: true,
 };
 
-export default function indexListReducer(state = initialState, action) {
+export default function homePageReducer(state = initialState, action) {
   switch (action.type) {
     case REQUEST_ARTICLE_METADATA_LIST:
       return {
@@ -52,7 +52,6 @@ export default function indexListReducer(state = initialState, action) {
       if (state.currentOffset + defaultPageLimit >= state.publicArticleCount) {
         isNextPageButtonShow = false
       }
-      console.log(state.currentOffset + defaultPageLimit, state.publicArticleCount);
       return {
         ...state,
         isPreviousPageButtonShow: isPreviousPageButtonShow,

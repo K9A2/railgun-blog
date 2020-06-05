@@ -98,7 +98,7 @@ body {
   margin-bottom: 1.5rem;
 }
 
-.title-text > a, a:visited {
+.title-text > a {
   color: #333333;
 }
 
@@ -216,6 +216,14 @@ footer > p > a {
 
 .App-link {
   color: #61dafb;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.bold {
+  font-weight: 400;
 }
 
 @keyframes App-logo-spin {

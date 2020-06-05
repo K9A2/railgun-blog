@@ -4,10 +4,10 @@ import {
   fetchArticleMetadataList,
   fetchPublicArticleCount,
   setPaginationButtonVisibility
-} from "../actions/article_metadata";
-import {defaultPageLimit} from "../consts";
-import ArticleList from "./ArticleList";
-import {connect} from "react-redux";
+} from '../actions/article';
+import {defaultPageLimit} from '../consts';
+import ArticleList from './ArticleList';
+import {connect} from 'react-redux';
 
 class Home extends React.Component {
   static propTypes = {
@@ -68,12 +68,11 @@ class Home extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    metadataList: state.metadataList,
-    currentOffset: state.currentOffset,
-    isPreviousPageButtonShow: state.isPreviousPageButtonShow,
-    isNextPageButtonShow: state.isNextPageButtonShow,
+    metadataList: state.homePage.metadataList,
+    currentOffset: state.homePage.currentOffset,
+    isPreviousPageButtonShow: state.homePage.isPreviousPageButtonShow,
+    isNextPageButtonShow: state.homePage.isNextPageButtonShow,
   }
 };
 
 export default connect(mapStateToProps)(Home);
-

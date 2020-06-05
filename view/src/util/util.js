@@ -1,11 +1,12 @@
-import {defaultPageLimit} from "../constants/params";
+import {defaultPageLimit} from '../constants/params';
 
 export function getFormatDateString(longDateString) {
   let date = new Date(longDateString);
   let year = date.getFullYear();
   let month = date.getMonth();
   let day = date.getDay();
-  return `${year}-${month + 1}-${day}`;
+  let result = `${year}-${month + 1}-${day + 1}`;
+  return result;
 }
 
 export function mayLoadPreviousPage(currentOffset, count) {

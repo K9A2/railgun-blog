@@ -1,10 +1,9 @@
 package main
 
 import (
-  "log"
-
   _ "github.com/go-sql-driver/mysql"
   "github.com/jinzhu/gorm"
+  "log"
 )
 
 // DBClient 是数据库操作类
@@ -20,7 +19,7 @@ func GetDBClient() *DBClient {
 }
 
 func init() {
-  db, err := gorm.Open("mysql", "stormlin:123456789@(192.168.247.134)/blog?charset=utf8mb4&parseTime=True&loc=Local")
+  db, err := gorm.Open("mysql", "stormlin:1234567890@/blog?charset=utf8mb4&parseTime=True&loc=Local")
   if err != nil {
     log.Fatalf("error: %s\n", err.Error())
   }
@@ -41,4 +40,87 @@ func (client *DBClient) GetPublicArticleCount() int {
   client.db.Table(TableNameArticle).
     Where("is_hidden = ? AND is_deleted = ?", 0, 0).Count(&count)
   return count
+}
+
+// GetAllPublicArticleSimpleTitle 获取所有公开文章的简略标题信息
+func (client *DBClient) GetAllPublicArticleSimpleTitle() *[]ArticleSimpleTitle {
+  simpleTitleList := make([]ArticleSimpleTitle, 0)
+  client.db.Table(TableNameArticle).Select(ArticleSimpleTitleColumns).
+    Where("is_hidden = ? AND is_deleted = ?", 0, 0).Find(&simpleTitleList)
+  return &simpleTitleList
+}
+
+func (client *DBClient) GetArticlePageDetailBySlug(slug string) *ArticlePageDetail {
+  // 存放对应文章的 title 和 updatedAt 两个字段
+  article := Article{}
+  // 取对应文章的 title 和 updatedAt 两个字段
+  client.db.Table(TableNameArticle).Select(ArticleMetadataMinColumns).
+    Where("slug = ? AND is_hidden = ? AND is_deleted = ?", slug, 0, 0).Find(&article)
+  // todo: 确定找不到指定文章时的判断条件
+  if article.Slug == "" {
+    return nil
+  }
+
+  // 按照指定的 slug 找对应的文章内容
+  var content ArticleContent
+  client.db.Table(TableNameArticleContent).Select(ArticleContentHtmlColumns).
+    Where("article_slug = ?", slug).Find(&content)
+  if content.ArticleSlug == "" {
+    return nil
+  }
+  return &ArticlePageDetail{
+    UpdatedAt: article.UpdatedAt,
+    Title:     article.Title,
+    Html:      content.ArticleHtml,
+  }
+}
+
+func (client *DBClient) GetSeriesSlugByArticleSlug(articleSlug string) string {
+  result := SeriesArticle{}
+  client.db.Table(TableNameSeriesArticle).Select(SeriesArticleSeriesSlugColumn).
+    Where("article_slug = ?", articleSlug).Find(&result)
+  return result.SeriesSlug
+}
+
+func (client *DBClient) GetAllSeriesArticle() *[]SeriesArticleListItem {
+  // 接口查询结果
+  result := make([]SeriesArticleListItem, 0)
+
+  // 获取全部专栏名字
+  seriesList := make([]Series, 0)
+  client.db.Table(TableNameSeries).Select(SeriesMinColumns).Find(&seriesList)
+  // 用来根据 slug 将对应专栏中的文章快速插入对应的结果列表中
+  seriesSlugItemMap := make(map[string]*SeriesArticleListItem)
+  // 构造结果列表中的专栏列表项
+  for _, series := range seriesList {
+    newListItem := SeriesArticleListItem{
+      SeriesName:        series.Name,
+      SeriesSlug:        series.Slug,
+      SeriesDescription: series.Description,
+      SimpleTitleList:   make([]ArticleSimpleTitle, 0),
+    }
+    seriesSlugItemMap[series.Slug] = &newListItem
+  }
+
+  // 获取全部公开的文章
+  articleList := make([]Article, 0)
+  client.db.Table(TableNameArticle).Select(ArticleSimpleTitleColumns).
+    Where("is_hidden = ? AND is_deleted = ?", 0, 0).Find(&articleList)
+  // 将查出的所有文章归入对应的专栏中
+  for _, article := range articleList {
+    seriesItem := seriesSlugItemMap[article.SeriesSlug]
+    seriesItem.SimpleTitleList = append(seriesItem.SimpleTitleList, ArticleSimpleTitle{
+      UpdatedAt:  article.UpdatedAt,
+      Title:      article.Title,
+      Slug:       article.Slug,
+      SeriesName: seriesItem.SeriesName,
+    })
+  }
+
+  // 构造结果列表中的专栏列表项
+  for _, series := range seriesSlugItemMap {
+    result = append(result, *series)
+  }
+
+  return &result
 }

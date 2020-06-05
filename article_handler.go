@@ -1,10 +1,9 @@
 package main
 
 import (
+  "github.com/gin-gonic/gin"
   "log"
   "net/http"
-
-  "github.com/gin-gonic/gin"
 )
 
 // GetArticleMetadataByPage 按页获取文章元数据
@@ -32,5 +31,14 @@ func GetPublicArticleCount(ctx *gin.Context) {
   count := GetDBClient().GetPublicArticleCount()
   ctx.JSON(http.StatusOK, gin.H{
     "publicArticleCount": count,
+  })
+}
+
+// GetArticlePageDetailBySlug 返回文章内容页所需的内容
+func GetArticlePageDetailBySlug(context *gin.Context) {
+  slug := context.Param("slug")
+  detail := GetDBClient().GetArticlePageDetailBySlug(slug)
+  context.JSON(http.StatusOK, gin.H{
+    "detail": detail,
   })
 }

@@ -1,39 +1,36 @@
 import React from 'react';
-import logo from './img/logo.jpg';
 import './App.css';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Home from './component/Home';
+import About from './component/About';
+import SeriesPage from './component/SeriesPage';
+import Tag from './component/Tag';
+import Archive from './component/Archive';
+import Footer from './component/Footer';
+import SidePanel from './component/SidePanel';
+import ArticlePage from './component/ArticlePage';
 
 class App extends React.Component {
   render() {
-    let currentDate = new Date();
     return (
-      <div className="App flex-container">
-        <div className="left-col full-height wallpaper side-panel">
-          <div className="logo-box">
-            <img src={logo} alt="Logo" className="blog-logo"/>
-          </div>
-          <div className="blog-profile white">
-            <div className="blog-title-area">
-              <h1>stormlin</h1>
-              <h2 className="motto-text">吃了3个巨无霸汉堡</h2>
-            </div>
-          </div>
-          <div className="function-area white">
-            <div className="function-btn">首页</div>
-            <div className="function-btn">专题</div>
-            <div className="function-btn">标签</div>
-            <div className="function-btn">归档</div>
-            <div className="function-btn">关于</div>
+      <Router>
+        <div className="App flex-container">
+          <SidePanel/>
+          <div className="right-col full-height main-panel">
+            <Switch>
+              <Route path={'/series'} component={SeriesPage}/>
+              <Route path={'/tag'} component={Tag}/>
+              <Route path={'/archive'} component={Archive}/>
+              <Route path={'/about'} component={About}/>
+
+              <Route path={'/view/article/:slug'} component={ArticlePage}/>
+
+              <Route path={'/'} component={Home}/>
+            </Switch>
+            <Footer/>
           </div>
         </div>
-        <div className="right-col full-height main-panel">
-          <Home/>
-          <footer>
-            <p>© {currentDate.getFullYear()}</p>
-            <p>Powered by <a href="https://github.com/K9A2/railgun-blog">railgun-blog</a></p>
-          </footer>
-        </div>
-      </div>
+      </Router>
     );
   }
 }

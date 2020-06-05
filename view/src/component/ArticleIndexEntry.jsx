@@ -1,36 +1,32 @@
 import React from 'react';
-import { getFormatDateString } from '../util/util';
+import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import ArticleTitle from './ArticleTitle';
 
 export default class ArticleIndexEntry extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            title: props.info.Title,
-            slug: props.info.Slug,
-            updatedAt: props.info.UpdatedAt,
-            description: props.info.Description,
-        };
-    }
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+  };
 
-    render() {
-        let articleAddress = "/article/show/" + this.state.slug;
-        return (
-            <div className="index-entry-area">
-                <div className="horizontal-area flex-container">
-                    <div className="left-col title-area">
-                        <h1 className="title-text"><a href={articleAddress}>{this.state.title}</a></h1>
-                    </div>
-                    <div className="right-col date-area">
-                        <p className="date-text">{getFormatDateString(this.state.updatedAt)}</p>
-                    </div>
-                </div>
-                <div className="horizontal-area flex-container">
-                    <p className="description-text justified-text">{this.state.description}</p>
-                </div>
-                <div className="read-more-area">
-                    <a href={articleAddress}>继续阅读</a>
-                </div>
-            </div>
-        )
-    }
+
+  render() {
+    let articleAddress = 'view/article/' + this.props.slug;
+    return (
+      <div className="index-entry-area">
+        <div className={'horizontal-area'}>
+          <ArticleTitle address={articleAddress} title={this.props.title}
+                        updatedAt={this.props.updatedAt}/>
+        </div>
+        <div className="horizontal-area flex-container">
+          <p className="description-text justified-text">{this.props.description}</p>
+        </div>
+        <div className="read-more-area">
+          <Link to={articleAddress}>继续阅读</Link>
+        </div>
+      </div>
+    )
+  }
 }
