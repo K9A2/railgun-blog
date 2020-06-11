@@ -4,6 +4,8 @@ import (
   _ "github.com/go-sql-driver/mysql"
   "github.com/jinzhu/gorm"
   "log"
+  "sort"
+  "strconv"
 )
 
 // DBClient 是数据库操作类
@@ -120,6 +122,43 @@ func (client *DBClient) GetAllSeriesArticle() *[]SeriesArticleListItem {
   // 构造结果列表中的专栏列表项
   for _, series := range seriesSlugItemMap {
     result = append(result, *series)
+  }
+
+  return &result
+}
+
+func (client *DBClient) GetArchivedArticle() *[]ArchivedArticleList {
+  result := make([]ArchivedArticleList, 0)
+
+  // 选取全部公开文章，然后按照更新年份从新到旧排序
+  allPublicArticles := client.GetAllPublicArticleSimpleTitle()
+  // 保存公开文章的发表年份
+  yearArticleMap := make(map[string]*ArchivedArticleList)
+  // 将文章年份归档，顺便构造返回结构体
+  for _, article := range *allPublicArticles {
+    updatedYear := strconv.Itoa(article.UpdatedAt.Year())
+    if yearArticle, ok := yearArticleMap[updatedYear]; ok {
+      // 追加到后面
+      yearArticle.ArticleList = append(yearArticle.ArticleList, article)
+    } else {
+      newArchivedArticleList := ArchivedArticleList{
+        Year:        updatedYear,
+        ArticleList: []ArticleSimpleTitle{article},
+      }
+      yearArticleMap[updatedYear] = &newArchivedArticleList
+    }
+  }
+
+  // 按照年份排序
+  var keys []string
+  for k := range yearArticleMap {
+    keys = append(keys, k)
+  }
+  sort.Strings(keys)
+  keysNum := len(keys)
+  // 按照排序后的次序组装响应体
+  for i := keysNum - 1; i >= 0; i-- {
+    result = append(result, *yearArticleMap[keys[i]])
   }
 
   return &result

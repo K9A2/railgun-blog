@@ -75,3 +75,8 @@ type SeriesArticleListItem struct {
   SeriesDescription string
   SimpleTitleList   []ArticleSimpleTitle
 }
+
+type ArchivedArticleList struct {
+  Year        string
+  ArticleList []ArticleSimpleTitle
+}

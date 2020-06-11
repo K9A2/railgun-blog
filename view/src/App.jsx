@@ -5,7 +5,7 @@ import Home from './component/Home';
 import About from './component/About';
 import SeriesPage from './component/SeriesPage';
 import Tag from './component/Tag';
-import Archive from './component/Archive';
+import ArchivePage from './component/ArchivePage';
 import Footer from './component/Footer';
 import SidePanel from './component/SidePanel';
 import ArticlePage from './component/ArticlePage';
@@ -20,7 +20,7 @@ class App extends React.Component {
             <Switch>
               <Route path={'/series'} component={SeriesPage}/>
               <Route path={'/tag'} component={Tag}/>
-              <Route path={'/archive'} component={Archive}/>
+              <Route path={'/archive'} component={ArchivePage}/>
               <Route path={'/about'} component={About}/>
 
               <Route path={'/view/article/:slug'} component={ArticlePage}/>

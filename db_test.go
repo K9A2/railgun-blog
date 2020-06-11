@@ -47,3 +47,8 @@ func TestGetAllSeriesArticle2(t *testing.T) {
   }
   log.Println("jsonValue", string(jsonValue))
 }
+
+func TestGetArchivedArticle(t *testing.T) {
+  archivedArticle := GetDBClient().GetArchivedArticle()
+  log.Println(archivedArticle)
+}

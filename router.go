@@ -18,6 +18,8 @@ func setupRouter(r *gin.Engine) {
     api.GET("/article/detail/:slug", GetArticlePageDetailBySlug)
 
     api.GET("/series", GetAllSeriesArticle)
+
+    api.GET("/archive", GetArchivedArticle)
   }
 }
 
