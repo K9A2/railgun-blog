@@ -20,6 +20,9 @@ func setupRouter(r *gin.Engine) {
     api.GET("/series", GetAllSeriesArticle)
 
     api.GET("/archive", GetArchivedArticle)
+
+    api.GET("/about/markdown", GetAboutMarkdown)
+    api.GET("/about/html", GetAboutHtml)
   }
 }
 

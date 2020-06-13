@@ -52,3 +52,13 @@ func TestGetArchivedArticle(t *testing.T) {
   archivedArticle := GetDBClient().GetArchivedArticle()
   log.Println(archivedArticle)
 }
+
+func TestGetAboutContent(t *testing.T) {
+  about := GetDBClient().GetAboutHtml()
+  log.Println(*about)
+}
+
+func TestGetAboutMarkdown(t *testing.T) {
+  about := GetDBClient().GetAboutMarkdown()
+  log.Println(*about)
+}

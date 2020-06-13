@@ -19,5 +19,9 @@ const TableNameSeriesArticle = "series_article"
 const SeriesArticleSeriesSlugColumn = "series_slug"
 const SeriesArticleAllColumns = "created_at, updated_at, series_name, article_slug"
 
+const TableNameAbout = "about"
+const AboutMarkdown = "updated_at, markdown"
+const AboutHtml = "updated_at, html"
+
 const DefaultOffset = "0"
 const DefaultLimit = "3"

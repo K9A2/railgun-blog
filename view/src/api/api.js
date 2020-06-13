@@ -1,11 +1,11 @@
 import axios from 'axios';
-import {apiBase} from '../constants/params';
 
 const ApiBase = 'http://localhost:8080/api/';
 
 const articleApiBase = `${ApiBase}article`;
 const seriesApiBase = `${ApiBase}series`;
-const archiveApiBase = `${apiBase}archive`;
+const archiveApiBase = `${ApiBase}archive`;
+const aboutApiBase = `${ApiBase}about`
 
 export const getArticleMetadataByPage = (offset, limit) => {
   return axios({
@@ -41,4 +41,18 @@ export const getArchivedArticle = () => {
     method: 'GET',
     url: `${archiveApiBase}`,
   });
+};
+
+export const getAboutHtml = () => {
+  return axios({
+    method: 'GET',
+    url: `${aboutApiBase}/html`,
+  })
+};
+
+export const getAboutMarkdown = () => {
+  return axios({
+    method: 'GET',
+    url: `${aboutApiBase}/markdown`,
+  })
 };

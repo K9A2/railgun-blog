@@ -163,3 +163,16 @@ func (client *DBClient) GetArchivedArticle() *[]ArchivedArticleList {
 
   return &result
 }
+
+func (client *DBClient) GetAboutHtml() *About {
+  about := About{}
+  // 只取首条记录
+  client.db.Table(TableNameAbout).Select(AboutHtml).Offset(0).Limit(1).Find(&about)
+  return &about
+}
+
+func (client *DBClient) GetAboutMarkdown() *About {
+  about := About{}
+  client.db.Table(TableNameAbout).Select(AboutMarkdown).Offset(0).Limit(1).Find(&about)
+  return &about
+}

@@ -80,3 +80,12 @@ type ArchivedArticleList struct {
   Year        string
   ArticleList []ArticleSimpleTitle
 }
+
+// About 是关于页信息的实体类
+type About struct {
+  ID        uint64    `gorm:"column:id"`
+  CreatedAt time.Time `gorm:"column:created_at"`
+  UpdatedAt time.Time `gorm:"column:updated_at"`
+  Markdown  string    `gorm:"column:markdown"`
+  Html      string    `gorm:"column:html"`
+}
