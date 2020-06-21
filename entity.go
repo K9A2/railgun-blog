@@ -89,3 +89,12 @@ type About struct {
   Markdown  string    `gorm:"column:markdown"`
   Html      string    `gorm:"column:html"`
 }
+
+// User 是用户实体类
+type User struct {
+  ID        uint64    `gorm:"column:id"`
+  CreatedAt time.Time `gorm:"column:created_at"`
+  UpdatedAt time.Time `gorm:"column:updated_at"`
+  Username  string    `gorm:"column:username"`
+  Password  string    `gorm:"column:password"`
+}

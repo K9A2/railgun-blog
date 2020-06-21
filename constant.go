@@ -23,5 +23,8 @@ const TableNameAbout = "about"
 const AboutMarkdown = "updated_at, markdown"
 const AboutHtml = "updated_at, html"
 
+const TableNameUser = "user"
+const UserInfoColumns = "created_at, updated_at, username, password"
+
 const DefaultOffset = "0"
 const DefaultLimit = "3"

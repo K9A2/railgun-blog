@@ -4,6 +4,7 @@ import (
   "encoding/json"
   "log"
   "testing"
+  "time"
 )
 
 func TestGetArticleMetadataByPage(t *testing.T) {
@@ -61,4 +62,20 @@ func TestGetAboutContent(t *testing.T) {
 func TestGetAboutMarkdown(t *testing.T) {
   about := GetDBClient().GetAboutMarkdown()
   log.Println(*about)
+}
+
+func TestGetUserInfoByUsername(t *testing.T) {
+  user := GetDBClient().GetUserByUsername("stormlin")
+  log.Println(*user)
+}
+
+func TestAddNewUser(t *testing.T) {
+  currentTime := time.Now()
+  user := User{
+    CreatedAt: currentTime,
+    UpdatedAt: currentTime,
+    Username:  "stormlin",
+    Password:  "60167c97d4da3448a5a862ba1dad5aea",
+  }
+  GetDBClient().AddNewUser(&user)
 }

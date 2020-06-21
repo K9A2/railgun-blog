@@ -23,6 +23,8 @@ func setupRouter(r *gin.Engine) {
 
     api.GET("/about/markdown", GetAboutMarkdown)
     api.GET("/about/html", GetAboutHtml)
+
+    api.POST("/login/auth", GetAuthorization)
   }
 }
 

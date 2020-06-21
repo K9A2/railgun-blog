@@ -176,3 +176,16 @@ func (client *DBClient) GetAboutMarkdown() *About {
   client.db.Table(TableNameAbout).Select(AboutMarkdown).Offset(0).Limit(1).Find(&about)
   return &about
 }
+
+// GetUserByUsername 根据给定的用户名查询用户信息
+func (client *DBClient) GetUserByUsername(username string) *User {
+  user := User{}
+  client.db.Table(TableNameUser).Select(UserInfoColumns).Offset(0).Limit(1).
+    Where("username = ?", username).Find(&user)
+  return &user
+}
+
+// AddNewUser 向数据库添加新的用户信息
+func (client *DBClient) AddNewUser(user *User) {
+  client.db.Table(TableNameUser).Create(user)
+}
