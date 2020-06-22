@@ -234,3 +234,42 @@ footer > p > a {
     transform: rotate(360deg);
   }
 }
+
+.gray-background {
+  background: #f7f7f7;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+}
+
+.login-box {
+  /* 实现登陆界面的水平垂直居中 */
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+
+  width: 64rem;
+  height: 32rem;
+
+  box-shadow: #282c34 0 0 8px;
+}
+
+.login-image-panel {
+  height: 100%;
+}
+
+.login-image {
+  height: 32rem;
+}
+
+.login-form-panel {
+  width: 100%;
+  text-align: center;
+}
+
+.input-area {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

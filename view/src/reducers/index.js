@@ -4,8 +4,11 @@ import articlePageReducer from './article_page_reducer';
 import seriesPageReducer from './series_page_reducer';
 import archive_page_reducer from './archive_page_reducer';
 import about_page_reducer from './about';
+import loginPageReducer from './login_page_reducer';
 
 const rootReducer = combineReducers({
+  // 管理登陆页的状态
+  loginPage: loginPageReducer,
   // 管理关于页的状态
   aboutPage: about_page_reducer,
   // 管理归档页的状态
@@ -17,4 +20,5 @@ const rootReducer = combineReducers({
   // 管理专栏页的状态
   seriesPage: seriesPageReducer,
 });
+
 export default rootReducer;

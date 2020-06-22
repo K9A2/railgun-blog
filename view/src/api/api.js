@@ -1,11 +1,14 @@
 import axios from 'axios';
 
+const queryString = require('querystring');
+
 const ApiBase = 'http://localhost:8080/api/';
 
 const articleApiBase = `${ApiBase}article`;
 const seriesApiBase = `${ApiBase}series`;
 const archiveApiBase = `${ApiBase}archive`;
-const aboutApiBase = `${ApiBase}about`
+const aboutApiBase = `${ApiBase}about`;
+const authApiBase = `${ApiBase}login`;
 
 export const getArticleMetadataByPage = (offset, limit) => {
   return axios({
@@ -18,21 +21,21 @@ export const getArticleMetadataByPage = (offset, limit) => {
 export const getPublicArticleCount = () => {
   return axios({
     method: 'GET',
-    url: `${articleApiBase}/public-count`
+    url: `${articleApiBase}/public-count`,
   });
 };
 
 export const getArticlePageDetail = (slug) => {
   return axios({
     method: 'GET',
-    url: `${articleApiBase}/detail/${slug}`
+    url: `${articleApiBase}/detail/${slug}`,
   });
 };
 
 export const getSeriesArticle = () => {
   return axios({
     method: 'GET',
-    url: `${seriesApiBase}`
+    url: `${seriesApiBase}`,
   });
 };
 
@@ -47,12 +50,31 @@ export const getAboutHtml = () => {
   return axios({
     method: 'GET',
     url: `${aboutApiBase}/html`,
-  })
+  });
 };
 
 export const getAboutMarkdown = () => {
   return axios({
     method: 'GET',
     url: `${aboutApiBase}/markdown`,
-  })
+  });
+};
+
+export const postLoginForm = (username, password) => {
+  const formData = {
+    username, password,
+  };
+
+  const postConfig = {
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+    }
+  };
+
+  return axios({
+    method: 'POST',
+    url: `${authApiBase}/auth`,
+    data: queryString.stringify(formData),
+    postConfig,
+  });
 };
