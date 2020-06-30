@@ -1,10 +1,10 @@
-package main
+package rgblog
 
 import (
-  "crypto/md5"
-  "encoding/hex"
-  "log"
-  "strconv"
+	"crypto/md5"
+	"encoding/hex"
+	"log"
+	"strconv"
 )
 
 // ConvertQueryStringToNumber 将 map 中的查询串转换为数字形式

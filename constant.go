@@ -1,4 +1,4 @@
-package main
+package rgblog
 
 // TableNameArticle 是 Article 表的名字
 const TableNameArticle = "article"

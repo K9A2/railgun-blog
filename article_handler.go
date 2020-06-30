@@ -1,9 +1,10 @@
-package main
+package rgblog
 
 import (
-  "github.com/gin-gonic/gin"
-  "log"
-  "net/http"
+	"log"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // GetArticleMetadataByPage 按页获取文章元数据

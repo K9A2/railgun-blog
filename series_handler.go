@@ -1,8 +1,9 @@
-package main
+package rgblog
 
 import (
-  "github.com/gin-gonic/gin"
-  "net/http"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func GetAllSeriesArticle(ctx *gin.Context) {

@@ -1,10 +1,10 @@
-package main
+package rgblog
 
 import (
-  "encoding/json"
-  "log"
-  "testing"
-  "time"
+	"encoding/json"
+	"log"
+	"testing"
+	"time"
 )
 
 func TestGetArticleMetadataByPage(t *testing.T) {
